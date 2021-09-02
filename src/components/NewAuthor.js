@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { baseUrl } from '../globals';
 
 const NewAuthor = () => {
   const [ name, setName ] = useState("");
@@ -21,7 +22,7 @@ const NewAuthor = () => {
       headers,
       body: JSON.stringify(body)
     }
-    await fetch('http://localhost:9393/authors', options)
+    await fetch(`${baseUrl}/authors`, options)
     
     history.push("/authors");
     

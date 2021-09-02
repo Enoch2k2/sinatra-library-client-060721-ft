@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AuthorCard from './AuthorCard';
+import { baseUrl } from '../globals';
 
 const AuthorList = () => {
   const [ authors, setAuthors ] = useState([]);
@@ -7,7 +8,7 @@ const AuthorList = () => {
 
   useEffect(() => {
     const loadAuthors = async () => {
-      const resp = await fetch('http://localhost:9393/authors')
+      const resp = await fetch(`${ baseUrl }/authors`)
       const data = await resp.json();
       setAuthors(data);
       setLoading(false);
@@ -16,7 +17,7 @@ const AuthorList = () => {
   }, [])
 
   const deleteAuthor = async id => {
-    await fetch(`http://localhost:9393/authors/${ id }`, { method: "DELETE" })
+    await fetch(`${ baseUrl }/authors/${ id }`, { method: "DELETE" })
     removeAuthor( id );
   }
   

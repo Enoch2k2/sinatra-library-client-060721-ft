@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BookCard from './BookCard';
+import { baseUrl } from '../globals';
 
 const BookList = () => {
   const [ books, setBooks ] = useState([]);
@@ -7,7 +8,7 @@ const BookList = () => {
 
   useEffect(() => {
     const loadBooks = async () => {
-      const resp = await fetch('http://localhost:9393/books')
+      const resp = await fetch(`${baseUrl}/books`)
       const data = await resp.json();
       setBooks(data);
       setLoading(false);
@@ -17,7 +18,7 @@ const BookList = () => {
   if(loading){ return <h1>Loading...</h1>}
 
   const deleteBook = async id => {
-    await fetch(`http://localhost:9393/books/${ id }`, { method: "DELETE" })
+    await fetch(`${baseUrl}/books/${ id }`, { method: "DELETE" })
     removeBook( id );
   }
   

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, NavLink } from 'react-router-dom'
 
 import BookCard from './BookCard';
+import { baseUrl } from '../globals';
 
 const AuthorDetails = () => {
   const [ author, setAuthor ] = useState(null);
@@ -10,7 +11,7 @@ const AuthorDetails = () => {
 
   useEffect(() => {
     const loadAuthor = async () => {
-      const resp = await fetch(`http://localhost:9393/authors/${id}`)
+      const resp = await fetch(`${ baseUrl }/authors/${id}`)
       const data = await resp.json();
 
       setAuthor(data);
@@ -24,7 +25,7 @@ const AuthorDetails = () => {
   } else {
 
     const deleteBook = async id => {
-      await fetch(`http://localhost:9393/books/${ id }`, { method: "DELETE" })
+      await fetch(`${ baseUrl }/books/${ id }`, { method: "DELETE" })
       removeBook( id );
     }
     

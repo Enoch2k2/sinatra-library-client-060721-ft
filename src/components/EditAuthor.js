@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
+import { baseUrl } from '../globals';
 
 const EditAuthor = () => {
   const [ name, setName ] = useState("");
@@ -10,7 +11,7 @@ const EditAuthor = () => {
 
   useEffect(() => {
     const loadAuthor = async () => {
-      const resp = await fetch(`http://localhost:9393/authors/${id}`)
+      const resp = await fetch(`${baseUrl}/authors/${id}`)
       const data = await resp.json();
       setAuthor(data);
       setName(data.name);
@@ -35,7 +36,7 @@ const EditAuthor = () => {
       headers,
       body: JSON.stringify(body)
     }
-    await fetch(`http://localhost:9393/authors/${ id }`, options)
+    await fetch(`${baseUrl}/authors/${ id }`, options)
     
     history.push(`/authors/${ id }`);
     
