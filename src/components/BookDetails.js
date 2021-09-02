@@ -6,14 +6,16 @@ const BookDetails = () => {
   const [ loading, setLoading ] = useState(true);
   const { id } = useParams();
 
-  useEffect(async () => {
-    const resp = await fetch(`http://localhost:9393/books/${id}`)
-    const data = await resp.json();
-
-    setBook(data);
-    setLoading(false);
-
-  }, [])
+  useEffect(() => {
+    const loadBook = async () => {
+      const resp = await fetch(`http://localhost:9393/books/${id}`)
+      const data = await resp.json();
+  
+      setBook(data);
+      setLoading(false);
+    }
+    loadBook();
+  }, [id])
 
   if(loading) {
     return <h1>Loading...</h1>

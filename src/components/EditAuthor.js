@@ -8,13 +8,16 @@ const EditAuthor = () => {
   const { id } = useParams();
   const history = useHistory();
 
-  useEffect(async () => {
-    const resp = await fetch(`http://localhost:9393/authors/${id}`)
-    const data = await resp.json();
-    setAuthor(data);
-    setName(data.name);
-    setLoading(false);
-  }, [])
+  useEffect(() => {
+    const loadAuthor = async () => {
+      const resp = await fetch(`http://localhost:9393/authors/${id}`)
+      const data = await resp.json();
+      setAuthor(data);
+      setName(data.name);
+      setLoading(false);
+    }
+    loadAuthor();
+  }, [id])
 
   const handleChange = e => {
     setName(e.target.value)

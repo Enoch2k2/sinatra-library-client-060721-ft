@@ -11,12 +11,15 @@ const NewBook = () => {
   const { authorId } = useParams();
   const history = useHistory();
 
-  useEffect(async () => {
-    const resp = await fetch(`http://localhost:9393/authors/${authorId}`)
-    const data = await resp.json();
-    setAuthor(data);
-    setLoading(false);
-  }, [])
+  useEffect(() => {
+    const loadAuthor = async () => {
+      const resp = await fetch(`http://localhost:9393/authors/${authorId}`)
+      const data = await resp.json();
+      setAuthor(data);
+      setLoading(false);
+    }
+    loadAuthor();
+  }, [authorId])
 
   if(loading){ return <h1>Loading...</h1>};
 

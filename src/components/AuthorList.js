@@ -5,20 +5,28 @@ const AuthorList = () => {
   const [ authors, setAuthors ] = useState([]);
   const [ loading, setLoading ] = useState(true);
 
-  useEffect(async () => {
-    const resp = await fetch('http://localhost:9393/authors')
-    const data = await resp.json();
-    setAuthors(data);
-    setLoading(false);
+  useEffect(() => {
+    const loadAuthors = async () => {
+      const resp = await fetch('http://localhost:9393/authors')
+      const data = await resp.json();
+      setAuthors(data);
+      setLoading(false);
+    }
+    loadAuthors();
   }, [])
-  
-  const deleteBook = async id => {
 
+  const deleteAuthor = async id => {
+    await fetch(`http://localhost:9393/authors/${ id }`, { method: "DELETE" })
+    removeAuthor( id );
+  }
+  
+  const removeAuthor = id => {
+    setAuthors(authors.filter( author => author.id !== id))
   }
 
   if(loading){ return <h1>Loading...</h1>}
 
-  const authorCards = authors.map((author, index) => <AuthorCard key={ index } author={ author } />)
+  const authorCards = authors.map((author, index) => <AuthorCard key={ index } author={ author } deleteAuthor={ deleteAuthor }/>)
 
   return (
     <div>

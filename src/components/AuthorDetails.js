@@ -8,29 +8,30 @@ const AuthorDetails = () => {
   const [ loading, setLoading ] = useState(true);
   const { id } = useParams();
 
-  useEffect(async () => {
-    const resp = await fetch(`http://localhost:9393/authors/${id}`)
-    const data = await resp.json();
+  useEffect(() => {
+    const loadAuthor = async () => {
+      const resp = await fetch(`http://localhost:9393/authors/${id}`)
+      const data = await resp.json();
 
-    setAuthor(data);
-    setLoading(false);
-
-  }, [])
+      setAuthor(data);
+      setLoading(false);
+    }
+    loadAuthor();
+  }, [id])
 
   if(loading) {
     return <h1>Loading...</h1>
   } else {
 
     const deleteBook = async id => {
-      const resp = await fetch(`http://localhost:9393/books/${ id }`, { method: "DELETE" })
-      const data = await resp.json();
+      await fetch(`http://localhost:9393/books/${ id }`, { method: "DELETE" })
       removeBook( id );
     }
     
     const removeBook = id => {
       setAuthor({
         ...author,
-        books: author.books.filter( book => book.id != id)
+        books: author.books.filter( book => book.id !== id)
       })
     }
 
