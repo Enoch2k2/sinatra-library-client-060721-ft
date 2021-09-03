@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import BookCard from './BookCard';
 import { baseUrl } from '../globals';
+import SearchBooks from './SearchBooks';
 
 const BookList = () => {
   const [ books, setBooks ] = useState([]);
+  const [ filteredBooks, setFilteredBooks ] = useState([]);
   const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
@@ -11,6 +13,7 @@ const BookList = () => {
       const resp = await fetch(`${baseUrl}/books`)
       const data = await resp.json();
       setBooks(data);
+      setFilteredBooks(data);
       setLoading(false);
     }
     loadBooks();
@@ -26,10 +29,15 @@ const BookList = () => {
     setBooks(books.filter( book => book.id !== id))
   }
 
-  const bookCards = books.map((book, index) => <BookCard key={ index } book={ book } author={ book.author } deleteBook={ deleteBook } />)
+  const handleSearch = (term) => {
+   setFilteredBooks(books.filter( book => book.title.toLowerCase().includes(term.toLowerCase())))
+  }
+
+  const bookCards = filteredBooks.map((book, index) => <BookCard key={ index } book={ book } author={ book.author } deleteBook={ deleteBook } />)
   return (
     <div>
       <h1>Books</h1>
+      <SearchBooks handleSearch={ handleSearch } /><br/><br/>
       { bookCards }
     </div>
   )
